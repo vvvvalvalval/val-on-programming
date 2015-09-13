@@ -1,0 +1,23 @@
+{:site-title         "Val on Programming"
+ :author             "Valentin Waeselynck"
+ :description        "This blog is awesome"
+ :site-url           "http://blogawesome.com/"
+ :post-root          "posts"
+ :tag-root           "tags"
+ :page-root          "pages"
+ :blog-prefix        ""
+ :rss-name           "feed.xml"
+ :rss-filters        ["cryogen"]
+ :recent-posts       5
+ :post-date-format   "yyyy-MM-dd"
+ :sass-src           nil
+ :sass-dest          nil
+ :theme              "blue"
+ :resources          ["img"]
+ :keep-files         [".git"]
+ :disqus?            true
+ :disqus-shortname   "valonprogramming"
+ :ignored-files      [#"\.#.*" #".*\.swp$"]
+ :posts-per-page     5
+ :blocks-per-preview 2
+ :previews?          true}
