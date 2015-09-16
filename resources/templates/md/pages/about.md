@@ -3,6 +3,4 @@
  :page-index 0
  :navbar? true}
 
-## Write something about something
-
-wow wow wow
+I'm passionate about music, innovation and programming; I believe the theoretical limit to our productivity is the speed of our imagination.
