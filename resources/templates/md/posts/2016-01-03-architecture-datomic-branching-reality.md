@@ -3,6 +3,8 @@
  :tags  ["Datomic" "Clojure" "Architecture"]
  :toc true}
 
+<div style="text-align:center;"><img src="/img/multiverse.jpg" width="300px"></div>
+
 In this post, I'll present an architectural pattern for structuring Clojure and Datomic apps, playing a similar role
  as Dependency Injection in the Object-Oriented world.
 
