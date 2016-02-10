@@ -6,11 +6,11 @@
 <div style="text-align:center;"><img src="/img/multiverse.jpg" width="300px"></div>
 
 In this post, I'll present an architectural pattern for structuring Clojure and Datomic apps, playing a similar role
- as Dependency Injection in the Object-Oriented world.
+ to Dependency Injection in the Object-Oriented world.
 
 The big picture is that your application logic manipulates *universes*, which are mutable programmatic values with a `fork`
-operation, which essentially makes 2 diverging universes out of one. This 'fork' abstraction is made possible using one of
-Datomic's special powers: speculative writes.
+operation, which essentially makes 2 diverging universes out of one. This 'fork' abstraction is analogous to forking branches in Git,
+and is made possible using one of Datomic's special powers: speculative writes.
 
 I've found this approach to make system-level tests very straightforward to write, and to play nicely with interactive development.
 Read on for more details.
@@ -190,7 +190,7 @@ In particular, you can use these mock connections to make a local 'fork' of any 
 This notion of forking is interesting, and applicable to other objects than Datomic connections.
 For example, immutable data structures and simple mutable interfaces (e.g HTTP session stores) can be forked too.
 
-Which brings us to the main point: if the universes of your application have Datomic as their main data store, then you can *fork* these universes.
+Which brings us to the main point: **if the universes of your application have Datomic as their main data store, then you can *fork* these universes**.
 
 *Forking* a universe is making a local 'copy' of a universal which behaves exactly as the original one, in which you can mess around without affecting the original one.
 
@@ -261,6 +261,16 @@ as supporting mutability in the few places where it is a better fit than a purel
 Having said that, universes and the ability to fork them are no excuse to make a mutable imperative mess.
 You still want to make the building blocks of your application purely functional, on as large a scale as is reasonable.
 
+
+## Forkabillity, and Clojure's time model
+
+The *Epochal Time Model* embodied in Clojure and Datomic consists of an *identity* (represented e.g by a Datomic connection, an Atom, ...)
+which *state* changes over time as a succession of values (e.g Datomic database values, persistent data structures, ...):
+"the state is the value of an identity at a point in time". In this model, changing the state means setting the state of an identity to a new value.
+
+Interestingly, *forking* also has a natural interpretation in this time model: duplicating an identity without changing its state.
+ (at least that's the way I see it).
+
 ## Practical usage
 
 I have a test namespace with a function to create 'starting-point universe' loaded with fixture data. This function is called by tests, and by me from the REPL.
@@ -276,7 +286,7 @@ To achieve full universe forkability, I also had to make mock implementations of
 ## Parting thoughts
 
 I am constantly amazed to see how immutability, although it encourages functional programming, also makes dealing with side-effects and mutable places better.
-This is a lesson we have learned in the small with Clojure's STM, and now we're learning it in the large with Datomic.
+This is a lesson we have learned in the small with Clojure's references, and now we're learning it in the large with Datomic.
 
 At [BandSquare](https://www.bandsquare.com) we have applied the above ideas to our whole backend system, to great benefits so far.
 We will continue to explore the possibilities and limitations of forkable universes, and we welcome your feedback.
