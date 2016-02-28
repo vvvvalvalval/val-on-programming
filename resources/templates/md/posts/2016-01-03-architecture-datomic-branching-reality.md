@@ -79,7 +79,7 @@ Another tempting idea is to use dynamic Vars, one of Clojure's special features,
 I don't recommend this either. This is still environment coupling, even if you have an easier way to control the environment.
 You may also find yourself typing thse annoying `(binding ...)` clauses all the time in the REPL, which kind of defeats the purpose of using Vars.
 
-It is now an [established best practice](reference to components) in the Clojure community to pass the configuration as additional arguments to your business logic functions,
+It is now an [established best practice](https://github.com/stuartsierra/component) in the Clojure community to pass the configuration as additional arguments to your business logic functions,
  making them self-contained. For example, you can pass the configuration values as a map
 
 ```clojure
@@ -262,7 +262,7 @@ Having said that, universes and the ability to fork them are no excuse to make a
 You still want to make the building blocks of your application purely functional, on as large a scale as is reasonable.
 
 
-## Forkabillity, and Clojure's time model
+## Forkability, and Clojure's time model
 
 The *Epochal Time Model* embodied in Clojure and Datomic consists of an *identity* (represented e.g by a Datomic connection, an Atom, ...)
 which *state* changes over time as a succession of values (e.g Datomic database values, persistent data structures, ...):
