@@ -118,7 +118,7 @@ Roughly speaking, `with` accepts a database value and a write specification, and
 
 Therefore, it's useful to answer "what if" questions.
 But we can go further and abuse `with` to mock Datomic connections in-memory.
-Here is a complete implementation, which is essentially an Atom holding database values, which uses `with` for writes (gist [here](https://gist.github.com/vvvvalvalval/9330ac436a8cc1424da1)):
+Here is a complete implementation, which is essentially an Atom holding database values, which uses `with` for writes (**edit:** you can now use the [datomock library](https://github.com/vvvvalvalval/datomock)):
 
 ```clojure
 (import 'datomic.Connection)
