@@ -1,11 +1,11 @@
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Alegreya';
+    font-family: 'Bree Serif', serif;
 }
 
 body {
     color: #333;
     background-color: #f2f2f2;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 
