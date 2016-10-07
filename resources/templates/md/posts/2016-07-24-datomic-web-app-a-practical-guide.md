@@ -26,7 +26,7 @@ I am assuming that you have basic notions of how Datomic works.
 
 ### A quick Datomic refresher
 
-* In Datomic, the basic unit of information if the *datom*,
+* In Datomic, the basic unit of information is the *datom*,
 which is a 5-tuple of the form `[<entity id> <attribute> <value> <transaction id> <operation>]`, representing a fact.
  Examples of datoms are `[42 :user/email "hello@gmail.com" 201 true]` and `[42 :user/friend 42 206 false]`.
  The *transaction id* essentially tells us the time at which the fact was added to the system; the *operation* tells us
@@ -82,8 +82,9 @@ On the whole, I implement business logic using a few categories of functions:
 In addition, at the boundaries of my domain logic, I have functions which convert entities to and from entities, mostly:
 * *finder* functions, accepting a db value and an identifier and returning an entity, e.g `(find-user-by-id db #uuid"57062d44-8829-4776-af3a-2fdf4d7ce93a")`
 * *clientizer* functions, accepting an entity and returning a data structure (typically a plain old map)
-which can be sent over the network (typically to the  client), serialized as JSON or Transit for example.
-Here's an example of clientizer function:
+ which can be sent over the network (typically to the  client), serialized as JSON or Transit for example.
+ Here's an example of clientizer function:
+ <span class="sn">advanced Datomic users may find this implementation uselessly verbose. Depending on the contract between your server and your client, you may be able to write a much more concise implementation using Datomic's Pull API; you may even not need clientizer functions at all!</span>
 
 ```clojure
 (defn cl-comment
@@ -149,8 +150,8 @@ Datomic gives you 2 main mechanisms for querying: Entities and Datalog queries. 
 * Datalog works though pattern recognition in the database graph. It has its own constructs for control flow and abstraction, and is useful for expressing domain logic via declarative rules.
 * Entities are useful for 'navigating' around in your database, using your programming language for control flow and abstraction.
 
-Additionally, both Datalog and Entities can use the [Pull API](http://docs.datomic.com/pull.html),
- which is a declarative, data-oriented way of specifying what information about an entity you're interested in.
+Additionally, both Datalog and Entities can be combined with the [Pull API](http://docs.datomic.com/pull.html),
+ giving you a powerful, declarative, data-oriented way of formatting the results of a query.
 
 ## Schema / model declaration
 
@@ -211,6 +212,10 @@ Personally, none of these libraries satisfied me completely for my use case, so 
  (it's not hard, really, you can totally get away with it).
  I've been coping with Issue 2 so far without too much trouble - it's a pain, but really not what I spend most time on.
  So really, see what works for you.
+ <span class="sn">Some Datomic users prefer keeping the schema in raw EDN-form,
+ arguing that the operational advantage of having the schema in a static file in transactable-form with no dependencies outweighs the inconvenience of it being verbose.
+ Datomic creators made the great call of designing Datomic schemas to be data-oriented and query-able, giving the users maximum flexibility in how they declare and deploy them.
+ You should choose the approach that suits you best for you use case and personal taste.</span>
 
 In this regard, you may be wondering:
 
@@ -260,6 +265,9 @@ Modifying an attribute (e.g changing the type of `:person/id` from `:db.type/uui
  (e.g `:person.v2/id`).
 
 You probably won't ever need to delete an attribute. Just stop using it in your application code.
+ Optionally, you can mark an attribute as deprecated:
+ * by updating its documentation, e.g `:db/doc "DEPRECATED - use :person/firstName and :person/lastName instead. A person's name"`
+ * by adding a home-made deprecation attribute (e.g `:attr/deprecated`) *to the attribute itself*, since Datomic attributes are themselves entities.
 
 Finally, you will sometimes need to run a migration that does not consist of modifying the schema, but the data itself
  (fixing badly formatted data, adding a default value of a new attribute, etc.).
@@ -410,25 +418,25 @@ So now we have connections that we can use for development and testing.
 That's a good start, but in their current form they can be impractical:
 
   * if you run a test case which does writes, and want to go back to a fresh state, you'll need to explicitly
-release the current connection and make a new one;
+ release the current connection and make a new one;
   * on my dev laptop, running `(fixture-conn)` takes about 300 ms to create the database and install the schema and fixture.
-If you plan on running dozens or hundreds of tests, this can feel really slow.
+  If you plan on running dozens or hundreds of tests, this can feel really slow.
 
 Fortunately, a few months ago I discovered that you can use one of Datomic's superpowers, *speculative writes* (aka [db.with()](http://docs.datomic.com/clojure/#datomic.api/with)),
-to implement an *fork* operation on Datomic connections.
-I could talk at length about forking connections (and I do it [here](http://vvvvalvalval.github.io/posts/2016-01-03-architecture-datomic-branching-reality.html)); in a nutshell, forking a connection is the ability to
-create a new, local connection which holds the same current database value as the old connection, but will evolve independently
-of the old connection afterwards.
+ to implement an *fork* operation on Datomic connections.
+ I could talk at length about forking connections (and I do it [here](http://vvvvalvalval.github.io/posts/2016-01-03-architecture-datomic-branching-reality.html)); in a nutshell, forking a connection is the ability to
+ create a new, local connection which holds the same current database value as the old connection, but will evolve independently
+ of the old connection afterwards.
 
 Forking connections solves both our problems because:
   * you don't need to do any manual resource reclamation; forked connections will just be garbage-collected when you're done with them.
   * forking is completely inexpensive in time and space (the overhead is that of creating a Clojure Atom).
 
 This changes the way we obtain a mock connection: instead of creating a connection from scratch on each test case,
-we'll create a *starting-point* connection once, and then *fork* it to obtain a fresh connection for each test case.
+ we'll create a *starting-point* connection once, and then *fork* it to obtain a fresh connection for each test case.
 
 I've implemented a tiny library called [datomock](https://github.com/vvvvalvalval/datomock) which implements this fork operation.
-It also implements the equivalent of `scratch-conn`, so our previous code becomes:
+ It also implements the equivalent of `scratch-conn`, so our previous code becomes:
 
 ```clojure
 (require '[datomic.api :as d])
@@ -454,8 +462,8 @@ It also implements the equivalent of `scratch-conn`, so our previous code become
 (we'll make one more tiny change to this code in the next section. It'll be the last one, I promise!)
 
 Forking Datomic connections has other benefits.
-For instance, forking your production connection enables you to instantly reproduce the state of your production system on your local machine.
-That's very handy for debugging, or if you need to make a manual modification to your data and want to "rehearse" it locally before
+ For instance, forking your production connection enables you to instantly reproduce the state of your production system on your local machine.
+ That's very handy for debugging, or if you need to make a manual modification to your data and want to "rehearse" it locally before
  committing it to the production database.
 
 ### Auto-reloading tests and fixture freshness
@@ -464,7 +472,7 @@ We still have a problem with the above code: it works fine for running your test
 but it's not compatible with interactive development.
 
 Whether you're running your tests in the REPL or using a auto-reloading test runner like Midje,
-whenever you make changes to your schema or fixture code, starting-point-conn won't get updated automatically, and your tests
+whenever you make changes to your schema or fixture code, `starting-point-conn` won't get updated automatically, and your tests
 won't reflect your last code changes.
 
 We solve this using the oldest magic trick of Computer Science: time-based caching!
