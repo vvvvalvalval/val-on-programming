@@ -193,17 +193,17 @@ Here's an example of a schema installation transaction, representing a Person en
 There is a [variety of opinions](http://stackoverflow.com/questions/31416378/recommended-way-to-declare-datomic-schema-in-clojure-application)
 on how you should declare and install your schema, but in my view we have 2 issues here:
 
-  * Issue 1: there's a lot of noise; ideally we'd like to spend 1 LoC on each attribute, not 7.
-  * Issue 2: it's *only* useful for Datomic schema installation, whereas you may want to declare a schema for your data model for other purposes
+* Issue 1: there's a lot of noise; ideally we'd like to spend 1 LoC on each attribute, not 7.
+* Issue 2: it's *only* useful for Datomic schema installation, whereas you may want to declare a schema for your data model for other purposes
    (input validation, documentation, REST endpoints generation, plumatic Schemas, test.check generators, etc.).
   In other words, when implementing these other aspects of your data model, you'll be to duplicating code to some extent.
 
 There are several libraries which tackle these issues; some are just concise DSLs on top of Datomic schema transactions,
  while others take care of more things (but are also more opinionated):
-  * [datomic-schema](https://github.com/Yuppiechef/datomic-schema)
-  * [tupelo-datomic](https://github.com/cloojure/tupelo-datomic)
-  * [spec-tacular](https://github.com/SparkFund/spec-tacular)
-  * [adi](https://github.com/zcaudate/adi)
+* [datomic-schema](https://github.com/Yuppiechef/datomic-schema)
+* [tupelo-datomic](https://github.com/cloojure/tupelo-datomic)
+* [spec-tacular](https://github.com/SparkFund/spec-tacular)
+* [adi](https://github.com/zcaudate/adi)
 
 The general idea is always the same: have a DSL generate a high-level data structure representing your data model,
  then *derive* your Datomic schema installation transactions (and other things) from this data structure.
@@ -236,10 +236,10 @@ If that's an issue, you may even want to roll out your own mapping library.
  Implementing ORMs is knowingly difficult, but Clojure/Datomic Mapping should be significantly easier that Object/Relational Mapping,
  because many of the fundamental issues of SQL databases and Object-Oriented languages simply don't exist in these technologies:
 
-  1. The database is immutable and not remote, which eliminates most of the thorny distributed systems / concurrency issues you would face when implementing an ORM for a client-server database.
-  2. The impedance mismatch between Datomic databases and Clojure data structures is *much* smaller than the impedance mismatch between relations and objects.
-  3. The DDL of Datomic is first-class data, which you can run query against and annotate as much as you want.
-  4. You're not constrained by a class system for declaring schemas, so you can use the syntax and information model you want.
+1. The database is immutable and not remote, which eliminates most of the thorny distributed systems / concurrency issues you would face when implementing an ORM for a client-server database.
+2. The impedance mismatch between Datomic databases and Clojure data structures is *much* smaller than the impedance mismatch between relations and objects.
+3. The DDL of Datomic is first-class data, which you can run query against and annotate as much as you want.
+4. You're not constrained by a class system for declaring schemas, so you can use the syntax and information model you want.
 
 (Don't be too eager to go down that road though. Chances are you'll be *fine* with just Datomic)
 
@@ -266,17 +266,19 @@ Modifying an attribute (e.g changing the type of `:person/id` from `:db.type/uui
 
 You probably won't ever need to delete an attribute. Just stop using it in your application code.
  Optionally, you can mark an attribute as deprecated:
- * by updating its documentation, e.g `:db/doc "DEPRECATED - use :person/firstName and :person/lastName instead. A person's name"`
- * by adding a home-made deprecation attribute (e.g `:attr/deprecated`) *to the attribute itself*, since Datomic attributes are themselves entities.
+
+* by updating its documentation, e.g `:db/doc "DEPRECATED - use :person/firstName and :person/lastName instead. A person's name"`
+* by adding a home-made deprecation attribute (e.g `:attr/deprecated`) *to the attribute itself*, since Datomic attributes are themselves entities.
 
 Finally, you will sometimes need to run a migration that does not consist of modifying the schema, but the data itself
  (fixing badly formatted data, adding a default value of a new attribute, etc.).
  You want to run these migrations exactly once at deployment time.
  The strategy for that is:
-  1. write a transaction function for your migration
-  2. keep track of what transaction have already been run in the database
-  3. have a generic transaction function that conditionally runs another transaction only if it has not already been run
-  4. at deployment time, send your migration transactions wrapped by the generic transaction function to the transactor.
+ 
+1. write a transaction function for your migration
+2. keep track of what transaction have already been run in the database
+3. have a generic transaction function that conditionally runs another transaction only if it has not already been run
+4. at deployment time, send your migration transactions wrapped by the generic transaction function to the transactor.
   This way the transactional features of Datomic take care of the coordination for you.
 
 Note that there's a library called [Conformity](https://github.com/rkneufeld/conformity) which takes care of 2, 3 and 4 for you.
@@ -417,9 +419,9 @@ Here's an implementation, which we'll modify slightly when we learn about forkin
 So now we have connections that we can use for development and testing.
 That's a good start, but in their current form they can be impractical:
 
-  * if you run a test case which does writes, and want to go back to a fresh state, you'll need to explicitly
+* if you run a test case which does writes, and want to go back to a fresh state, you'll need to explicitly
  release the current connection and make a new one;
-  * on my dev laptop, running `(fixture-conn)` takes about 300 ms to create the database and install the schema and fixture.
+* on my dev laptop, running `(fixture-conn)` takes about 300 ms to create the database and install the schema and fixture.
   If you plan on running dozens or hundreds of tests, this can feel really slow.
 
 Fortunately, a few months ago I discovered that you can use one of Datomic's superpowers, *speculative writes* (aka [db.with()](http://docs.datomic.com/clojure/#datomic.api/with)),
@@ -429,8 +431,9 @@ Fortunately, a few months ago I discovered that you can use one of Datomic's sup
  of the old connection afterwards.
 
 Forking connections solves both our problems because:
-  * you don't need to do any manual resource reclamation; forked connections will just be garbage-collected when you're done with them.
-  * forking is completely inexpensive in time and space (the overhead is that of creating a Clojure Atom).
+
+* you don't need to do any manual resource reclamation; forked connections will just be garbage-collected when you're done with them.
+* forking is completely inexpensive in time and space (the overhead is that of creating a Clojure Atom).
 
 This changes the way we obtain a mock connection: instead of creating a connection from scratch on each test case,
  we'll create a *starting-point* connection once, and then *fork* it to obtain a fresh connection for each test case.

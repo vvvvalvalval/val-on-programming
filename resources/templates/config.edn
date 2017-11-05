@@ -1,7 +1,7 @@
 {:site-title         "Val on Programming"
  :author             "Valentin Waeselynck"
- :description        "This blog is awesome"
- :site-url           "http://blogawesome.com/"
+ :description        ""
+ :site-url           "http://vvvvalvalval.github.io/"
  :post-root          "posts"
  :tag-root           "tags"
  :page-root          "pages"
@@ -20,4 +20,7 @@
  :ignored-files      [#"\.#.*" #".*\.swp$"]
  :posts-per-page     5
  :blocks-per-preview 2
- :previews?          true}
+ :previews?          true
+ :hide-future-posts?   false
+ :clean-urls?   false
+ :debug? false}
