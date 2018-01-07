@@ -193,3 +193,9 @@ u.sn, ins.sn {
 .sn-toggle:hover {
     text-decoration: underline;
 }
+
+/* Tweets */
+
+.my-tweet-wrapper .twitter-tweet {
+  margin: 10px auto;
+}
