@@ -16,27 +16,34 @@ So the goal of this article is to help you understand _why_ some of us choose to
   for this strange world of brackets and parentheses - and how rewarding it can be.
 
 **Disclaimer:** this article does not try to _prove_ the benefits of Clojure's syntax - merely to communicate my perception of them.
- I believe the right tool for assessing language design is experience using it, not rethorics :)
+ I believe the right tool for assessing language design is experience using it, not rethoric.
 
 ## Does syntax matter?
 
 First, let me start by saying this: **syntax is NEVER a good reason to use or dismiss a programming language.**
- If your approach for choosing a language is 'I (don't) like the syntax', you're doing it wrong.
- The semantics of a language, its execution model, its ecosystem, its performance characteristics, etc. are much more
- important factors.
+ If your approach for choosing a language is 'I (don't) like the syntax', you're doing it wrong - choosing a language for the syntax
+ is like choosing a car for the texture of the wheel. In practice, the semantics of a language, its execution model, its ecosystem, its performance characteristics, etc. are _always_ much more important factors - and whatever your initial think of the syntax, you get used to it.
 
 Developers face many technical difficulties when building real-world systems; the most painful of these difficulties tend
  to last fo years and get worse over time. So if being unfamiliar with some language syntax is your most painful problem
- at work, I envy you, because you can be 100% confident that this problem will be over in a matter of days :).
+ at work, I envy you, because you can be 100% confident that this problem will be over in a matter of days.
 
 Does this mean that syntax does not matter for language design? Of course it matters!
- Syntax matters, because it encourages or inhibits certain
- programming idioms. You _could_ write Java programs in the same style as Clojure programs, but that would be extremely
+ **Syntax matters, because it encourages or inhibits certain programming idioms.**
+You _could_ write Java programs in the same style as Clojure programs, but that would be extremely
  unwieldy, to the point that no team would be willing to sustain such an effort (not to mention a whole ecosystem).
 
 As we'll see, Clojure's syntax is an enabler for many desirable things.
 
 ## The ingredients of Clojure's syntax
+
+Clojure's syntax is simple enough that most of it can be described in a blog post.
+ If you're accustomed to C-lineage languages, this syntax may look scary to you; trust me,
+ it's only a matter of familiarity. As someone who has programmed in Java and other C-looking languages
+ for 8 years before using Clojure, I can testify that it's no less readable and convenient to edit.
+
+**EDIT:** I realize Shaun Lebron did a better job than me at this in his article
+ [ClojureScript syntax in 15 minutes](https://github.com/shaunlebron/ClojureScript-Syntax-in-15-minutes).
 
 ### Data literals
 
@@ -192,7 +199,7 @@ Importantly, in Clojure, **the programmer can define her own macros**
 5. Macros enable 'zero-cost abstractions', i.e abstractions that have no runtime performance cost (since they operate at
  compile-time).
 6. Macros can do anything to compute the returned expression: use previously-defined functions, make network calls, call a database, etc.
-7. LISP-style macros aren't the same thing _at all_ than C/C++-style macros: don't judge the former because you've been bitten by the latter :)
+7. LISP-style macros aren't the same thing _at all_ than C/C++-style macros: don't judge the former because you've been bitten by the latter
 
 If you want to know more precisely how this all works, I recommend reading [the reference on clojure.org](https://clojure.org/reference/evaluation).
 
@@ -210,9 +217,9 @@ A famous example is GUI programming in Java using the Swing toolkit, which is kn
 
 ```clojure
 (doto (JFrame.)
-  (add (doto (JLabel. "Hello World")
-         (setHorizontalAlignment SwingConstants/CENTER)))
-  pack show)
+  (.add (doto (JLabel. "Hello World")
+          (.setHorizontalAlignment SwingConstants/CENTER)))
+  .pack .show)
 ```
 
 The Java equivalent would be:
@@ -427,7 +434,7 @@ When you have macros, a huge part of the external tools that are commonplace in 
 
 * source code generation / transformation
 * debugging tools
-* syntax entensions / 'transpilers'
+* syntax extensions / 'transpilers'
 * bytecode manipulation
 * annotations
 * documentation generation
