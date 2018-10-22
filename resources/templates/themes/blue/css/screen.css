@@ -199,3 +199,15 @@ u.sn, ins.sn {
 .my-tweet-wrapper .twitter-tweet {
   margin: 10px auto;
 }
+
+.about-profile-pic {
+    width: 180px;
+    max-width: 100%;
+}
+
+@media screen and (min-width: 450px) {
+    .about-profile-pic {
+        float: left;
+        margin: 5px 10px 0px 0px;
+    }
+}

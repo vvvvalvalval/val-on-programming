@@ -3,14 +3,13 @@
  :page-index 0
  :navbar? true}
 
-In this blog are some of my thoughts on programming. These ideas are mostly not original.
-
-My goal here is for you, the reader, to rapidly acquire some insights which took me a long time to achieve - and as an added benefit, 
+In this blog are some of my thoughts on programming.
+ My goal here is for you, the reader, to rapidly acquire some insights which took me a long time to achieve - and as an added benefit, 
  to gain a better grasp of these notions myself, by putting them into words.
 
 ## About me
 
-<img src="/img/vw-rope.jpg" width="100%">
+<img src="/img/vw-dcd18.jpg" class="about-profile-pic">
 
 My name is **Valentin Waeselynck**, I'm a French software engineer currently living in Paris, France.
 
@@ -27,13 +26,20 @@ Lately, I have specialized in the **[Clojure](https://clojure.org/)** programmin
 You may find me on the web in a few places:
 * **Github:** [vvvvalvalval](https://github.com/vvvvalvalval)
 * **Stackoverflow:** [Valentin Waeselynck](https://stackoverflow.com/users/story/2875803)
+* **LinkedIn:** [Valentin Waeselynck](https://www.linkedin.com/in/valentin-waeselynck-3a334366/)
 * **Twitter:** [@val_waeselynck](https://twitter.com/val_waeselynck)
 * **Medium:** [Val Waeselynck](https://medium.com/@val.vvalval)
-* **LinkedIn:** [Valentin Waeselynck](https://www.linkedin.com/in/valentin-waeselynck-3a334366/)
 
 Aside from programming, I enjoy mathematics, climbing mountains, and playing music. 
 
 ### Consulting
 
-I'm available for software engineering consulting / training engagements, either on-site in the Paris area or remote.
- If you think I may be useful to your project, please [contact](mailto:val.vvalval@gmail.com) me. 
+I'm available for software engineering consulting engagements, either on-site in the Paris area or remote.
+ 
+More precisely, my contribution may take some of the following forms:
+* high-level software development (in various settings, which you could label as "fullstack" / "frontend" / "backend" / "devops" / ...),
+* software architecture,
+* training,
+* "production-izing algorithms", e.g bridging the gap between an R&D department and an IT department.
+
+If you think I may be useful to your project, please [contact](mailto:val.vvalval@gmail.com) me. 
