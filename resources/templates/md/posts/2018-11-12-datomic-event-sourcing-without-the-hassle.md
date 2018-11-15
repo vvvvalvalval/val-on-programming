@@ -120,8 +120,8 @@ This could feed an Aggregate representing questions as JSON-like documents, such
     "answer_id": "af1722d5-c9bb-4ac2-928e-cf31e77bb7fa",
     "answer_body": "Event Sourcing is about [...]",
     "answer_author": {
-      "user_id": "bob980877",
-      "user_name": "Bobby",
+      "user_id": "alice-doe32099",
+      "user_name": "Alice Doe",
       "user_reputation": 12665
     }
   }]
