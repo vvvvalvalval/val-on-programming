@@ -452,14 +452,14 @@ My understanding of this is that the approach discussed in this article is _prin
 
 Zach Tellman suggests that we can cope with the brittleness of principled components by embedding them in an adaptable 'framework' or 'glue',
  and in particular by leaving some space between principled components and the periphery of our systems. You should leave 
- 'espace hatches' for edge cases where your Domain Model representation becomes insufficient; for instance, you should preserve the ability
- to exceptionnaly define some GraphQL fields or database attributes or REST endpoints without going through your Domain Model representation. 
+ 'escape hatches' for edge cases where your Domain Model representation becomes insufficient; for instance, you should preserve the ability
+ to exceptionally define some GraphQL fields or database attributes or REST endpoints without going through your Domain Model representation. 
  
 
 ### You're in the business of framework-authoring
 
 The way I see it, if you're adopting the approach described in this post, you're going down the road of building a homemade framework.
- That's not necessary a bad thing, because your homemade framework makes assumptions that are by definition aligned with your use case,
+ That's not necessarily a bad thing, because your homemade framework makes assumptions that are by definition aligned with your use case,
  and it doesn't need to have the crazy ambitions of the more popular frameworks we see out there (for instance, it doesn't have to pretend
  to solve the Object-Relational Impedance Mismatch, or reinvent the web, or try to hide distributed system issues behind method calls, etc.)
  
