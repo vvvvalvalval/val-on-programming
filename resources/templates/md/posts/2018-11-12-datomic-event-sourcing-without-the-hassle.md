@@ -455,3 +455,5 @@ I've been overly politically correct in this entire article, and that must be pr
 * [Is Kafka a database?](https://martin.kleppmann.com/2018/10/17/kafka-summit.html) a talk by Martin Kleppmann.
 * [As time goes by, episode 2: technical challenges of bi-temporal Event Sourcing](https://fr.slideshare.net/ThomasPierrain/as-time-goes-by-episode-2)
 
+
+**EDIT:** this article has been discussed on [Hacker News](https://news.ycombinator.com/item?id=18431382), [r/programming](https://www.reddit.com/r/programming/comments/9wc8lv/datomic_event_sourcing_without_the_hassle/) and the [DDD/CQRS mailing list](https://groups.google.com/d/topic/dddcqrs/x-4jHq7nA5g/discussion).

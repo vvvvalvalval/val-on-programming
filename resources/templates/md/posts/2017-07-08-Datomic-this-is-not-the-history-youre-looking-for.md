@@ -150,7 +150,7 @@ I think the root of this issue is that we use the word 'time' to denote 2 essent
 
 *(Disclaimer: this terminology is totally made up by me as I'm writing this.)*
 
-For instance: imagine you're saling on the Atlantic Ocean, in the middle of a storm. At 8:03 AM, a nasty wave wipes the deck clean
+For instance: imagine you're sailing on the Atlantic Ocean, in the middle of a storm. At 8:03 AM, a nasty wave wipes the deck clean
  and you have to swim back to the boat. At 6:12 PM, you're sitting comfortably in the cabin, writing in the boat's log:
  "At 8:03 AM, a nasty wave made me fall from the boat." 8:03 AM is the event time; 6:12 PM is the recording time.
  These are obviously 2 distinct times (which is a good thing, otherwise the boat's log would've ended up in the water).
