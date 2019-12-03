@@ -15205,7 +15205,7 @@ $\displaystyle - \log{\left(\sigma \right)} - 0.918938533204673 - \frac{\left(- 
 <p>So instead of doing that, we'll first use an approximation called the <strong><a href="http://www.inference.org.uk/mackay/itprnn/ps/341.342.pdf">Laplace Method</a></strong>. This approximation will turn out to be very accurate here, and will also help us do the exact integration downstream.</p>
 <p>The Laplace Method consist at approximating $P(\Theta | D, M_1)$ by a Gaussian. To do that, we need to find a point $\Theta_{MAP}$ at which $P_1^{*}$ reaches its maximum ('MAP' stands for <em>Maximum A Posteriori</em> ), as well as the Hessian of $P_1^{*}(\Theta)$ at $\Theta_{MAP}$, which will correspond to the precision matrix of the Gaussian.</p>
 <p>Luckily, <code>scipy.optimize</code> gives us everything we need for doing that efficiently: we can use <code>scipy.optimize.minimize()</code> for finding $\Theta_{MAP}$ by minimizing $- \ln (P_1^{*}(\Theta))$, along with Sympy for differentiating (and in particular computing the Hessian).</p>
-<p>I wrote a generic helper function <a href="./utils/scipy_bayes.py#L17"><code>find_map()</code></a> for doing that in a package <code>utils.scipy_bayes</code>, which we can now apply to Model 1:</p>
+<p>I wrote a generic helper function <a href="https://github.com/vvvvalvalval/sciencey-stuff/blob/90615d901af98744d65d477b6a96b758de90cc53/utils/scipy_bayes.py#L17"><code>find_map()</code></a> for doing that in a package <code>utils.scipy_bayes</code>, which we can now apply to Model 1:</p>
 
 </div>
 </div>
@@ -15291,7 +15291,7 @@ $\displaystyle - \log{\left(\sigma \right)} - 0.918938533204673 - \frac{\left(- 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The above optimization result gives us the mean (<code>m1_map.x</code>) and precision matrix (<code>m1_map.hess</code>) of the approximating Gaussian. We can use these to compute 99% <strong>'confidence intervals' for $\alpha$ and $\sigma$</strong>. Again, we use a small generic function written for that purpose:</p>
+<p>The above optimization result gives us the mean (<code>m1_map.x</code>) and precision matrix (<code>m1_map.hess</code>) of the approximating Gaussian. We can use these to compute 99% <strong>'confidence intervals' for $\alpha$ and $\sigma$</strong>. Again, we use a <a href="https://github.com/vvvvalvalval/sciencey-stuff/blob/90615d901af98744d65d477b6a96b758de90cc53/utils/scipy_bayes.py#L82">small generic function</a> written for that purpose:</p>
 
 </div>
 </div>
@@ -15619,7 +15619,7 @@ $\displaystyle - \log{\left(\sigma \right)} - 0.918938533204673 - \frac{\left(- 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_m1_alpha_posteriors</span><span class="p">(</span><span class="n">m1_map</span><span class="p">,</span> <span class="n">m1b_map</span><span class="p">):</span>
@@ -16091,7 +16091,7 @@ $$ P(D | M_i) = \int{P^*_i(\Theta) d\Theta} $$<p>in which $P^*_i(\Theta) := P(D 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The Laplace Appriximation also gives us an efficient approximation for computing the model evidence: since $P^*_i(\Theta)$ is approximated to be an un-normalized gaussian, we only need to compute the scaling factor for a gaussian, which can be done analytically.</p>
-<p>As before, I wrote a small generic function for computing it, which we can apply directly to our MAP optimization results:</p>
+<p>As before, I wrote a small <a href="https://github.com/vvvvalvalval/sciencey-stuff/blob/90615d901af98744d65d477b6a96b758de90cc53/utils/scipy_bayes.py#L72">generic function for computing the model evidence</a>, which we can apply directly to our MAP optimization results:</p>
 
 </div>
 </div>
@@ -16182,7 +16182,7 @@ $$ P(D | M_i) = \int{P^*_i(\Theta) d\Theta} $$<p>in which $P^*_i(\Theta) := P(D 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We now compute Model evidences using numerical integration. Again, most of the work is done by calling a generic helper function in <code>scp_bayes</code>:</p>
+<p>We now compute Model evidences using numerical integration. Again, most of the work is done by calling a <a href="https://github.com/vvvvalvalval/sciencey-stuff/blob/90615d901af98744d65d477b6a96b758de90cc53/utils/scipy_bayes.py#L89">generic helper function</a> in <code>scp_bayes</code>:</p>
 
 </div>
 </div>
