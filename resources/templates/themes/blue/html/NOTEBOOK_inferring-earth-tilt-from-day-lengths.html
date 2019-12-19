@@ -13088,6 +13088,7 @@ div#notebook {
 <p><strong>Concepts:</strong> curve-fitting, least-squares regression, numerical optimization, symbolic computing, numerical integration, (Bayesian) inference, Laplace Method, (Euclidean) geometry, trigonometry.</p>
 <p><strong>Tools:</strong> <a href="https://www.python.org/">Python</a>, <a href="https://numpy.org/">NumPy</a>, <a href="https://www.scipy.org/">SciPy</a>, <a href="https://www.sympy.org/">SymPy</a>, <a href="https://matplotlib.org/">Matplotlib</a>, <a href="https://jupyter.org/">Jupyter</a>, <a href="https://www.geogebra.org/">GeoGebra</a>.</p>
 <p>I expect this article to be read by people from many different backgrounds. If some things seem obvious to you, please don't take it as an insult to your intelligence. Enjoy your read!</p>
+<p><strong>Disclaimer:</strong> astronomy is not my specialty, and I did most of this work while having very little access to the Internet. Expect some unconventional notation!</p>
 
 </div>
 </div>
@@ -13548,7 +13549,8 @@ $$ \cos(\pi d_f) =  \frac{- R \sin(\phi)\tan(\theta(t))}{R \cos(\phi)} = - \tan(
 </ul>
 <p>Considering our first figure, we can see that $\sin(\theta(t)) = \vec{u_E} . \vec{u_S}(t)$.</p>
 <p>What's more, the projection of $\vec{u_E}$ in the Earth's orbit plane is a (constant) vector of length $\sin(\alpha)$; it follows that $\vec{u_E} . \vec{u_S}(t) = \sin(\alpha) \cos(2 \pi \frac{t - t_S}{T_Y})$, yielding:</p>
-$$ \theta(t) = \arcsin(\sin(\alpha) \cos(2 \pi \frac{t - t_S}{T_Y})) $$<p>Note: $2 \pi \frac{t - t_S}{T_Y}$ is an angle indicating where the Earth is in its orbit. How do we know this angle evolves at constant speed? We've used the fact that since the Earth's orbit is a circle, the Earth progresses along it at constant speed (the gravitational force being orthogonal to the direction of motion, the kinetic energy is constant, and so is the speed).</p>
+$$ \theta(t) = \arcsin(\sin(\alpha) \cos(2 \pi \frac{t - t_S}{T_Y})) $$<p><img src="../img/earth-tilt_orbit-vectors.png" alt="Vectors in the Earth&#39;s orbit"></p>
+<p>Note: $2 \pi \frac{t - t_S}{T_Y}$ is an angle indicating where the Earth is in its orbit. How do we know this angle evolves at constant speed? We've used the fact that since the Earth's orbit is a circle, the Earth progresses along it at constant speed (the gravitational force being orthogonal to the direction of motion, the kinetic energy is constant, and so is the speed).</p>
 <p>We can then inject expression of $\theta(t)$ this into the previous formula:</p>
 $$ \cos(\pi d_f) =  - \tan(\phi) \tan(\arcsin(\sin(\alpha) \cos(2 \pi \frac{t - t_S}{T_Y}))) $$<p>Recalling that $-\cos(a) = \cos(\pi - a)$, we simplify this into the desired result:</p>
 $$ \cos(\pi (1- d_f)) =  \tan(\phi) \tan(\arcsin(\sin(\alpha) \cos(2 \pi \frac{t - t_S}{T_Y}))) $$
