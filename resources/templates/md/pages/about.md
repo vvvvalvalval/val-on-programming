@@ -11,11 +11,11 @@ In this blog are some of my thoughts on programming.
 
 <img src="/img/vw-dcd18.jpg" class="about-profile-pic">
 
-My name is **Valentin Waeselynck**, I'm a French software engineer currently living in Paris, France.
+My name is **Valentin Waeselynck**, I'm a French software engineer currently living in Santo Domingo, Domican Republic.
 
 I started programming when I was 14, starting in the exotic domain of artificial life systems.
  Since then, I've been fortunate enough to tackle a broad range of problems with a wide variety of technologies and approaches,
- building modern web applications, data processing pipelines, data analysis algorithms, custom querying engines and various 
+ building modern web applications, data processing pipelines, data analysis algorithms, custom search/query engines and various 
  programming tools for supporting this work. 
 
 Lately, I have specialized in the **[Clojure](https://clojure.org/)** programming language and **[Datomic](https://www.datomic.com/)** database,
@@ -28,7 +28,6 @@ You may find me on the web in a few places:
 * **Stackoverflow:** [Valentin Waeselynck](https://stackoverflow.com/users/story/2875803)
 * **LinkedIn:** [Valentin Waeselynck](https://www.linkedin.com/in/valentin-waeselynck-3a334366/)
 * **Twitter:** [@val_waeselynck](https://twitter.com/val_waeselynck)
-* **Medium:** [Val Waeselynck](https://medium.com/@val.vvalval)
 
 Aside from programming, I enjoy mathematics, climbing mountains, and playing music. 
 
@@ -38,6 +37,7 @@ I'm available for software engineering consulting engagements, either on-site in
  
 More precisely, my contribution may take some of the following forms:
 * high-level software development (in various settings, which you could label as "fullstack" / "frontend" / "backend" / "devops" / ...),
+* scientific programming (e.g Data Science / Machine Learning / Data Mining)
 * software architecture,
 * training,
 * "production-izing algorithms", e.g bridging the gap between an R&D department and an IT department.
