@@ -4,7 +4,7 @@
   :toc true
   :date "2020-06-29"}
 
-Thank you for taking the bait of this inflammatory title. I promise you that the rest of the article will be more reasoned and nuanced, even though the issue at hand is definitely pedestrian and annoying.
+Thank you for taking the bait of this inflammatory and simplistic title. I promise you that the rest of the article will be more reasoned and nuanced.
 
 **_In summary:_** for far-ranging data attributes, such as database columns and API fields, **I recommend namespacing keys using 'snake case', contrary to the current Clojure convention of using 'lisp-case' (for example: favour `:myapp_user_first_name` over `:myapp.user/first-name`)**, because the portability benefits of the former notation outweigh whatever affordances Clojure provides for the latter. This is an instance of trading local conveniences for system-wide benefits.
 
@@ -57,7 +57,7 @@ On the other hand, as far as I can tell, **it's hard to come by a platform that 
 
 ### 'This is not idiomatic Clojure'
 
-Your programs have more important requirements than being idiomatic. Programming history is riddled with bad design decisions made in the name of being idiomatic. Anyone who's worked through a nasty Scala class hierarchy knows how much incidental complexity some programmers are willing to inflict upon themselves for the sake of being idiomatic (_"because it's SO much better to write `subject.verb(complement)` than `verb(subject, complement)`. It's more idiomatic, you see."_). Let's avoid doing that to your program, or the Clojure ecosystem.
+Arguably, your programs have more important requirements than being idiomatic. Programming history is riddled with bad design decisions made in the name of being idiomatic. Anyone who's worked through a nasty Scala class hierarchy knows how much incidental complexity some programmers are willing to inflict upon themselves for the sake of being idiomatic (_"because it's SO much better to write `subject.verb(complement)` than `verb(subject, complement)`. It's more idiomatic, you see."_). Let's avoid doing that to your program, or the Clojure ecosystem.
 
 
 
@@ -77,7 +77,12 @@ _I can leverage that to manipulate my data attributes generically in my programs
 
 Don't do that. Don't treat Clojure keywords as composite data structures. This is accidental complexity waiting to happen. Programmatic names are meant for humans to read, not for programs to interpret. Changing an attribute name should not be able to change the behaviour of your program. In Hickeyian terms: you'd be complecting naming with structure.
 
-As a basic example of how this may break, consider that it's normal and expected to find in the same entity keys with different namespaces, e.g `:person/first-name` and `:myapp.user/signup-date`.
+As a basic example of how this may break, consider that it's normal and expected to find in the same entity keys with different namespaces, e.g `:person/first-name` and `:myapp.user/signup-date`. If you have a SQL database, there's a high chance that you need both attributes as columns of the same table (1): yet the default behaviour of a namespace-aware tool like [`next.jdbc`](https://cljdoc.org/d/seancorfield/next.jdbc/1.1.547/doc/readme) is to constrain both keywords to have the same namespace, which would be problematic in this case, and may be viewed as revealing a complecting of attribute naming and storage layout (2).
+
+_Notes:_
+
+* _(1) Yes, I know about SQL tables normalization... and that you can do too much of it._
+* _(2) Don't worry, that won't prevent you from using `next.jdbc`: this default behaviour is easily opted out of._ 
 
 
 ### 'But clojure.spec encourages the use of Clojure-namespaced keywords!'
@@ -105,12 +110,26 @@ Again, I don't want to put too much emphasis on this aspect, because I think it'
 Allow me to insist: the global searchability of programmatic names is much more important than their conformance to local naming customs.
 
 
+### 'You will need a data-marshalling layer anyway, so why not convert keys while you're at it?'
+
+This misses the point, because the key benefit of a ubiquitous naming convention is not to save you the implementation of a data-marshalling layer. It's really about code readability / searchability.
+
+For example, people have argued that other languages don't have a Keyword type, and so having keys in different format in your system is unavoidable. But that's not an issue. So key may appear as `:myapp_customer_first_name` in Clojure, `myapp_customer_first_name` in GraphQL and `"myapp_customer_first_name"` in ElasticSearch, but it will be obvious to both you and `grep` that these denote the same things.
+
+
+### 'My stack is full-Clojure, keywords supported everywhere, so I don't need a portable naming convention'
+
+Lucky you! But are you sure things will stay that way? Isn't there a risk your Datomic database will eventually be followed by an ElasticSearch materizalized view, or that your EQL API will be complemented by a GraphQL or REST API, or that a scientific-computing Python component will grow in your project, or that a JavaScript or ReasonML client will join your system? If that happens, you'll be happy to read `myapp_customer_id` in the code of these things rather than just `id`!
+
+
 
 ## Conclusion
 
 This article makes 2 unintuitive claims: that the choice of notation for namespaced keys matters, and that the one used conventionally in Clojure is often suboptimal. It proposes to replace it with `:snake_case`, the main drawback being that it looks ugly and awkward, which seems like a good deal as design tradeoffs go.
 
-2 years ago, I opened a [discussion on ClojureVerse](https://clojureverse.org/t/should-we-really-use-clojures-syntax-for-namespaced-keys/1516) questioning the use of Clojure's namespacing convention. Objections were raised, but none that convinced me or brought up issues I had overlooked, and I'm now confident that this article makes the best default recommendation.
+2 years ago, I opened a [discussion on ClojureVerse](https://clojureverse.org/t/should-we-really-use-clojures-syntax-for-namespaced-keys/1516) questioning the use of Clojure's namespacing convention. Objections were raised, but none that convinced me or brought up issues I had overlooked, and I'm now confident that this article makes the best default recommendation. 
+
+**EDIT:** That being said, as with most design problems, please don't follow this advice blindly: make it a conscious decision based on the specific requirements of your system. Hopefully this article will have given you a keener awareness of the tradeoffs involved.
 
 In my experience, this proposal tends to be met with reluctance, and remembered without regrets. I myself came to it begrudgingly (a coworker once phrased it well: _"I hate it, but it's right."_) Clojure developers program with love, and love drives us to cherish little idiosyncrasies. That said, I find it paradoxical that most of the resistance to this idea was along the lines of favouring 'local-language convenience', in a community where talks like _[The Language of the System](https://www.youtube.com/watch?v=ROor6_NGIWU)_ and _[Narcissistic Design](https://www.youtube.com/watch?v=LEZv-kQUSi4)_ have championed as higher principles the adaptability and friendliness to a varied surrounding system.
 
