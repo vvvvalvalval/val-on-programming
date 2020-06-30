@@ -106,19 +106,6 @@ Allow me to insist: the global searchability of programmatic names is much more 
 
 
 
-## Why have we used lisp-case in Clojure, anyway?
-
-Reading the above argument, you might wonder how the Clojure community came to use the `:myapp.user/first-name` naming convention in the first place, since its lack of portability is so problematic.
-
-My understanding of Clojure's history is that **this notation was not initially meant for keywords, and that its relevance to naming far-ranging data attributes was something of an afterthought.**
-
-In the first years of Clojure, it wasn't conventional to use namespaced keywords at all. The namespacing notation was meant for Symbols, such as `clojure.core/map-indexed`, for naming Vars, i.e for names that were not meant to be used outside of a Clojure program. The `.` separator for namespaces mimicked the naming of Java packages (recall the emphasis on Java interop in the early days of Clojure), whereas the use of dashes '`-`' followed a Lisp tradition.
-
-Quite reasonably, Clojure introduced namespace aliases to refer to such names more concisely in calling code: e.g `usr/find-by-id` rather than `myapp.user/find-by-id`. As this syntax was applicable to Symbols, it seemed natural to extend it to the other symbolic type of Clojure, namely Keywords, and that's how we came to use keys such as `::usr/first-name`. Then, the Clojure ecosystem gradually realized how valuable namespacing keywords was, and adopted this namespacing convention as the default.
-
-So I would not take away that the `:myapp.user/first-name` notation resulted from an in-depth reflection of the best naming convention to use for data attributes in a system. We simply didn't arrive to it from that angle. As this convention got slowly adopted, some people probably noticed that it presented portability issues: but keep in mind that the use of namespaced keys was not yet an established practice at the time, and that this was already a big improvement over where we came from, which was not using namespaced keys at all.
-
-
 ## Conclusion
 
 This article makes 2 unintuitive claims: that the choice of notation for namespaced keys matters, and that the one used conventionally in Clojure is often suboptimal. It proposes to replace it with `:snake_case`, the main drawback being that it looks ugly and awkward, which seems like a good deal as design tradeoffs go.
