@@ -16,7 +16,7 @@ You may already be convinced at this point, in which case the rest of this artic
 4. Optional: try to bargain with reality, by attempting to find some hacky mechanisms to keep both notations around. Realize that it's not satisfactory.
 5. Give up, be at peace, and reap the benefits of designing your programs **system-first rather than language-first**.
 
-I went slowly through this process myself, with some maintenance pains in the way, which hopefully this article can spare you.
+I went slowly through this process myself, with some maintenance pains along the way, which hopefully this article can spare you.
 
 
 
